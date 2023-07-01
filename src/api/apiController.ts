@@ -1,5 +1,9 @@
-export const getApis = (_, res) => {
-    res.send('Test');
+import repository from './apiRepository';
+
+export const getAllApis = async (_, res) => {
+    const apiList = await repository.getAllApis();
+
+    res.status(200).json(apiList);
 };
 
-export default { getApis };
+export default { getAllApis };

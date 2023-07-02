@@ -1,7 +1,7 @@
 import pool from '../common/database/postgresqlConnection';
 import Api from './interfaces/Api';
 
-const getAllApis = async () => {
+export const getAllApis = async () => {
     let sql = 'SELECT * FROM apis';
 
     try {
@@ -19,5 +19,3 @@ const getAllApis = async () => {
 
     return undefined;
 };
-
-export default { getAllApis };

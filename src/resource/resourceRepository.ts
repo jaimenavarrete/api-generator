@@ -22,3 +22,22 @@ export const getAllResources = async () => {
 
     return undefined;
 };
+
+export const getResourceById = async (id: string) => {
+    let sql = 'SELECT * FROM resources WHERE id=$1';
+
+    try {
+        const db = await pool.connect();
+
+        const result = await db.query(sql, [id]);
+        const resource: Resource = mapper.mapFromRowToResource(result.rows[0]);
+
+        db.release();
+
+        return resource;
+    } catch (err) {
+        console.error('An error has occurred with the connection', err);
+    }
+
+    return undefined;
+};

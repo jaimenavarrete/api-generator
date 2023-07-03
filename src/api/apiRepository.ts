@@ -19,3 +19,22 @@ export const getAllApis = async () => {
 
     return undefined;
 };
+
+export const getApiById = async (id: string) => {
+    let sql = 'SELECT * FROM apis WHERE id=$1;';
+
+    try {
+        const db = await pool.connect();
+
+        const result = await db.query(sql, [id]);
+        const api: Api = result.rows[0];
+
+        db.release();
+
+        return api;
+    } catch (err) {
+        console.error('An error has occurred with the connection', err);
+    }
+
+    return undefined;
+};

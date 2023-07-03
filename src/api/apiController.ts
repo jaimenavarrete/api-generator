@@ -5,3 +5,9 @@ export const getAllApis = async (_, res) => {
 
     res.status(200).json(apiList);
 };
+
+export const getApiById = async (req, res) => {
+    const api = await repository.getApiById(req.params.id);
+
+    res.status(200).json(api);
+};

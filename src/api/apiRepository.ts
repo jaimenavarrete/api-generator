@@ -1,6 +1,7 @@
 import pool from '../common/database/postgresqlConnection';
 import crypto from 'crypto';
 import Api from './interfaces/Api';
+import * as mapper from './apiMapper';
 
 export const getAllApis = async () => {
     let sql = 'SELECT * FROM apis';
@@ -9,7 +10,7 @@ export const getAllApis = async () => {
         const db = await pool.connect();
 
         const result = await db.query(sql);
-        const apisList: Api[] = result.rows;
+        const apisList: Api[] = mapper.mapFromRowsToApisList(result.rows);
 
         db.release();
 
@@ -28,7 +29,7 @@ export const getApiById = async (id: string) => {
         const db = await pool.connect();
 
         const result = await db.query(sql, [id]);
-        const api: Api = result.rows[0];
+        const api: Api = mapper.mapFromRowToApi(result.rows[0]);
 
         db.release();
 

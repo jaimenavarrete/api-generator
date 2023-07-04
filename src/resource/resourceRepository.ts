@@ -1,6 +1,7 @@
 import pool from '../common/database/postgresqlConnection';
 import Resource from './interfaces/Resource';
 import * as mapper from './resourceMapper';
+import crypto from 'crypto';
 
 export const getAllResources = async () => {
     let sql = 'SELECT * FROM resources';
@@ -40,4 +41,35 @@ export const getResourceById = async (id: string) => {
     }
 
     return undefined;
+};
+
+export const insertResource = async (resource: Resource) => {
+    resource.id = crypto.randomUUID();
+    resource.creationDate = new Date();
+
+    // First insert resource into table
+    let sqlInsertResource =
+        'INSERT INTO resources ' +
+        '(id, name, slug, description, apiId, isBulkRemovable, creationDate) VALUES ' +
+        '($1, $2, $3, $4, $5, $6, $7)';
+
+    let sqlInsertResourceValues = [
+        resource.id,
+        resource.name,
+        resource.slug,
+        resource.description,
+        resource.apiId,
+        resource.isBulkRemovable,
+        resource.creationDate,
+    ];
+
+    try {
+        const db = await pool.connect();
+
+        await db.query(sqlInsertResource, sqlInsertResourceValues);
+
+        db.release();
+    } catch (err) {
+        console.error('An error has occurred with the connection', err);
+    }
 };

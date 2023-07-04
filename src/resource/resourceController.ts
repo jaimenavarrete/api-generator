@@ -11,3 +11,11 @@ export const getResourceById = async (req, res) => {
 
     res.status(200).json(resource);
 };
+
+export const insertResource = async (req, res) => {
+    const resource = req.body;
+
+    await repository.insertResource(resource);
+
+    res.status(201).json(resource);
+};

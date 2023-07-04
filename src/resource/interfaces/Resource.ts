@@ -1,3 +1,6 @@
+import Api from '../../api/interfaces/Api';
+import Property from './Property';
+
 export default interface Resource {
     id: string;
     name: string;
@@ -6,5 +9,8 @@ export default interface Resource {
     apiId: string;
     isBulkRemovable: boolean;
     creationDate: Date;
-    lastModificationDate: Date;
+    lastModificationDate?: Date;
+
+    api?: Api;
+    properties?: Property[];
 }

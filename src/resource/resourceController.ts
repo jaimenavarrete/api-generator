@@ -1,3 +1,4 @@
+import { mapFromRequestBodyToResource } from './resourceMapper';
 import * as repository from './resourceRepository';
 
 export const getAllResources = async (_, res) => {
@@ -13,7 +14,7 @@ export const getResourceById = async (req, res) => {
 };
 
 export const insertResource = async (req, res) => {
-    const resource = req.body;
+    const resource = mapFromRequestBodyToResource(req.body);
 
     await repository.insertResource(resource);
 

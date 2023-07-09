@@ -43,17 +43,13 @@ export const getResourceById = async (id: string) => {
     return undefined;
 };
 
-export const insertResource = async (resource: Resource) => {
-    resource.id = crypto.randomUUID();
-    resource.creationDate = new Date();
-
-    // First insert resource into table
+const getQueryToInsertResource = (resource: Resource) => {
     let sqlInsertResource =
         'INSERT INTO resources ' +
         '(id, name, slug, description, apiId, isBulkRemovable, creationDate) VALUES ' +
         '($1, $2, $3, $4, $5, $6, $7)';
 
-    let sqlInsertResourceValues = [
+    let valuesInsertResource = [
         resource.id,
         resource.name,
         resource.slug,
@@ -63,10 +59,21 @@ export const insertResource = async (resource: Resource) => {
         resource.creationDate,
     ];
 
+    return { sqlInsertResource, valuesInsertResource };
+};
+
+export const insertResource = async (resource: Resource) => {
+    resource.id = crypto.randomUUID();
+    resource.creationDate = new Date();
+
+    // Insert resource into table
+    let { sqlInsertResource, valuesInsertResource } =
+        getQueryToInsertResource(resource);
+
     try {
         const db = await pool.connect();
 
-        await db.query(sqlInsertResource, sqlInsertResourceValues);
+        await db.query(sqlInsertResource, valuesInsertResource);
 
         db.release();
     } catch (err) {

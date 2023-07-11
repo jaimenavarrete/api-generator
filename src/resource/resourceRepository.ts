@@ -62,6 +62,44 @@ const getQueryToInsertResource = (resource: Resource) => {
     return { sqlInsertResource, valuesInsertResource };
 };
 
+const getQueryToInsertProperties = (resource: Resource) => {
+    let sqlInsertProperties =
+        'INSERT INTO properties ' +
+        '(id, name, typeId, resourceId, isKey, isNullable, defaultValue, referencedKeyId, creationDate) VALUES ';
+
+    let valuesInsertProperties: any[] = [];
+    let currentDate = new Date();
+
+    resource.properties!.forEach((property, index) => {
+        let position = 9 * index;
+        let id = crypto.randomUUID();
+
+        sqlInsertProperties += `
+            ($${1 + position}, $${2 + position}, $${3 + position}, 
+            $${4 + position}, $${5 + position}, $${6 + position}, 
+            $${7 + position}, $${8 + position}, $${9 + position}),`;
+
+        let values = [
+            id,
+            property.name,
+            property.typeId,
+            resource.id,
+            property.isKey,
+            property.isNullable,
+            property.defaultValue,
+            null,
+            currentDate,
+        ];
+
+        valuesInsertProperties = valuesInsertProperties.concat(values);
+    });
+
+    // Remove last comma
+    sqlInsertProperties = sqlInsertProperties.slice(0, -1);
+
+    return { sqlInsertProperties, valuesInsertProperties };
+};
+
 export const insertResource = async (resource: Resource) => {
     resource.id = crypto.randomUUID();
     resource.creationDate = new Date();
@@ -70,10 +108,15 @@ export const insertResource = async (resource: Resource) => {
     let { sqlInsertResource, valuesInsertResource } =
         getQueryToInsertResource(resource);
 
+    // Insert properties into table
+    let { sqlInsertProperties, valuesInsertProperties } =
+        getQueryToInsertProperties(resource);
+
     try {
         const db = await pool.connect();
 
         await db.query(sqlInsertResource, valuesInsertResource);
+        await db.query(sqlInsertProperties, valuesInsertProperties);
 
         db.release();
     } catch (err) {

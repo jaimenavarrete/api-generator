@@ -27,6 +27,7 @@ export const mapFromRequestBodyToResource = (request: any): Resource => ({
     description: request.description,
     apiId: request.apiId,
     isBulkRemovable: request.isBulkRemovable,
+    properties: mapFromRequestBodyToPropertiesList(request.properties),
     creationDate: new Date(),
 });
 

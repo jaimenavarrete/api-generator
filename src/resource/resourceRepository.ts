@@ -68,7 +68,6 @@ const getQueryToInsertProperties = (resource: Resource) => {
         '(id, name, typeId, resourceId, isKey, isNullable, defaultValue, referencedKeyId, creationDate) VALUES ';
 
     let valuesInsertProperties: any[] = [];
-    let currentDate = new Date();
 
     resource.properties!.forEach((property, index) => {
         let position = 9 * index;
@@ -79,22 +78,21 @@ const getQueryToInsertProperties = (resource: Resource) => {
             $${4 + position}, $${5 + position}, $${6 + position}, 
             $${7 + position}, $${8 + position}, $${9 + position}),`;
 
-        let values = [
+        valuesInsertProperties = [
+            ...valuesInsertProperties,
             id,
             property.name,
             property.typeId,
             resource.id,
             property.isKey,
             property.isNullable,
-            property.defaultValue,
             null,
-            currentDate,
+            null,
+            property.creationDate,
         ];
-
-        valuesInsertProperties = valuesInsertProperties.concat(values);
     });
 
-    // Remove last comma
+    // Remove last comma in query
     sqlInsertProperties = sqlInsertProperties.slice(0, -1);
 
     return { sqlInsertProperties, valuesInsertProperties };

@@ -41,12 +41,12 @@ export const mapFromRequestBodyToPropertiesList = (
 export const mapFromRequestBodyToProperty = (
     requestProperty: any
 ): Property => ({
-    id: requestProperty.id,
+    id: '',
     name: requestProperty.name,
     typeId: requestProperty.typeId,
     resourceId: requestProperty.resourceId,
-    isKey: requestProperty.isKey,
-    isNullable: requestProperty.isNullable,
+    isKey: requestProperty.isKey ?? false,
+    isNullable: requestProperty.isNullable ?? false,
     defaultValue: requestProperty.defaultValue,
     referencedKeyId: requestProperty.referencedKeyId,
     creationDate: new Date(),

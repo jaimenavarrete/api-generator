@@ -1,14 +1,15 @@
+import { PropertyType } from '../enums/PropertyType';
 import Type from './Type';
 
 export default interface Property {
     id: string;
     name: string;
-    typeId: number;
+    typeId: PropertyType;
     resourceId: string;
     isKey: boolean;
     isNullable: boolean;
-    defaultValue: any;
-    referencedKeyId: string;
+    defaultValue?: any;
+    referencedKeyId?: string;
     creationDate: Date;
     lastModificationDate?: Date;
 

@@ -1,14 +1,14 @@
 import { mapFromRequestBodyToResource } from './resourceMapper';
-import * as repository from './resourceRepository';
+import * as service from './resourceService';
 
 export const getAllResources = async (_, res) => {
-    const resourcesList = await repository.getAllResources();
+    const resourcesList = await service.getAllResources();
 
     res.status(200).json(resourcesList);
 };
 
 export const getResourceById = async (req, res) => {
-    const resource = await repository.getResourceById(req.params.id);
+    const resource = await service.getResourceById(req.params.id);
 
     res.status(200).json(resource);
 };
@@ -16,7 +16,7 @@ export const getResourceById = async (req, res) => {
 export const insertResource = async (req, res) => {
     const resource = mapFromRequestBodyToResource(req.body);
 
-    await repository.insertResource(resource);
+    await service.insertResource(resource);
 
     res.status(201).json(resource);
 };

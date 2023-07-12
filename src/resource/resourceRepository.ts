@@ -1,7 +1,6 @@
 import pool from '../common/database/postgresqlConnection';
 import Resource from './interfaces/Resource';
 import * as mapper from './resourceMapper';
-import crypto from 'crypto';
 
 export const getAllResources = async () => {
     let sql = 'SELECT * FROM resources';
@@ -71,7 +70,6 @@ const getQueryToInsertProperties = (resource: Resource) => {
 
     resource.properties!.forEach((property, index) => {
         let position = 9 * index;
-        let id = crypto.randomUUID();
 
         sqlInsertProperties += `
             ($${1 + position}, $${2 + position}, $${3 + position}, 
@@ -80,7 +78,7 @@ const getQueryToInsertProperties = (resource: Resource) => {
 
         valuesInsertProperties = [
             ...valuesInsertProperties,
-            id,
+            property.id,
             property.name,
             property.typeId,
             resource.id,
@@ -99,9 +97,6 @@ const getQueryToInsertProperties = (resource: Resource) => {
 };
 
 export const insertResource = async (resource: Resource) => {
-    resource.id = crypto.randomUUID();
-    resource.creationDate = new Date();
-
     // Insert resource into table
     let { sqlInsertResource, valuesInsertResource } =
         getQueryToInsertResource(resource);

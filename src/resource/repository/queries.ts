@@ -4,8 +4,8 @@ import Resource from '../interfaces/Resource';
 const getQueryToInsertResource = (resource: Resource) => {
     let sqlInsertResource =
         'INSERT INTO resources ' +
-        '(id, name, slug, description, apiId, isBulkRemovable, creationDate) VALUES ' +
-        '($1, $2, $3, $4, $5, $6, $7)';
+        '(id, name, slug, description, apiId, isBulkRemovable, tableCode, creationDate) VALUES ' +
+        '($1, $2, $3, $4, $5, $6, $7, $8)';
 
     let valuesInsertResource = [
         resource.id,
@@ -14,6 +14,7 @@ const getQueryToInsertResource = (resource: Resource) => {
         resource.description,
         resource.apiId,
         resource.isBulkRemovable,
+        resource.tableCode,
         resource.creationDate,
     ];
 

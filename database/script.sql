@@ -17,6 +17,7 @@ create table resources (
 	description text,
 	apiId char(36) not null,
 	isBulkRemovable bool not null,
+    tableCode char(33) not null,
 	creationDate timestamp,
 	lastModification timestamp,
 	

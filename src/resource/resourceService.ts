@@ -1,5 +1,5 @@
 import Resource from './interfaces/Resource';
-import * as repository from './resourceRepository';
+import * as repository from './repository/resourceRepository';
 import crypto from 'crypto';
 
 export const getAllResources = async () => await repository.getAllResources();

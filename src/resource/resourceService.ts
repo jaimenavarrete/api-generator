@@ -9,6 +9,7 @@ export const getResourceById = async (id: string) =>
 
 export const insertResource = async (resource: Resource) => {
     resource.id = crypto.randomUUID();
+    resource.tableCode = '_' + crypto.randomUUID().replace(/-/g, '');
     resource.creationDate = new Date();
 
     resource.properties = resource.properties!.map((property) => {

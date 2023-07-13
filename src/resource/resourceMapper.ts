@@ -11,6 +11,7 @@ export const mapFromRowToResource = (row: any): Resource => ({
     apiId: row.apiid,
     isBulkRemovable: row.isbulkremovable,
     properties: mapFromRequestBodyToPropertiesList(row.properties),
+    tableCode: row.tablecode,
     creationDate: row.creationdate,
     lastModificationDate: row.lastmodification,
 });
@@ -27,6 +28,7 @@ export const mapFromRequestBodyToResource = (request: any): Resource => ({
     description: request.description,
     apiId: request.apiId,
     isBulkRemovable: request.isBulkRemovable,
+    tableCode: '',
     properties: mapFromRequestBodyToPropertiesList(request.properties),
     creationDate: new Date(),
 });

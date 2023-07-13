@@ -1,4 +1,5 @@
 import pool from '../common/database/postgresqlConnection';
+import { PropertyType } from './enums/PropertyType';
 import Resource from './interfaces/Resource';
 import * as mapper from './resourceMapper';
 
@@ -96,20 +97,59 @@ const getQueryToInsertProperties = (resource: Resource) => {
     return { sqlInsertProperties, valuesInsertProperties };
 };
 
+const getPropertyType = (type: PropertyType) => {
+    switch (type) {
+        case PropertyType.Varchar:
+            return 'VARCHAR(256)';
+        case PropertyType.Text:
+            return 'TEXT';
+        case PropertyType.Int:
+            return 'INT';
+        case PropertyType.Decimal:
+            return 'DECIMAL(10,2)';
+        default:
+            return undefined;
+    }
+};
+
+const getQueryToCreateTable = (resource: Resource) => {
+    let sqlCreateTable = `CREATE TABLE ${resource.tableCode} (`;
+
+    resource.properties!.forEach((property) => {
+        let name = property.name,
+            type = getPropertyType(property.typeId),
+            isNullable = property.isNullable ? '' : 'NOT NULL',
+            isKey = property.isKey ? 'PRIMARY KEY' : '';
+
+        sqlCreateTable += `${name} ${type} ${isNullable} ${isKey},`;
+    });
+
+    // Remove last comma in query
+    sqlCreateTable = sqlCreateTable.slice(0, -1) + ')';
+
+    return { sqlCreateTable };
+};
+
 export const insertResource = async (resource: Resource) => {
-    // Insert resource into table
     let { sqlInsertResource, valuesInsertResource } =
         getQueryToInsertResource(resource);
 
-    // Insert properties into table
     let { sqlInsertProperties, valuesInsertProperties } =
         getQueryToInsertProperties(resource);
+
+    let { sqlCreateTable } = getQueryToCreateTable(resource);
 
     try {
         const db = await pool.connect();
 
+        // Insert resource into table
         await db.query(sqlInsertResource, valuesInsertResource);
+
+        // Insert properties into table
         await db.query(sqlInsertProperties, valuesInsertProperties);
+
+        // Create resource table
+        await db.query(sqlCreateTable);
 
         db.release();
     } catch (err) {

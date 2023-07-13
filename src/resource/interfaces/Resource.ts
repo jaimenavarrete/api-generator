@@ -8,6 +8,7 @@ export default interface Resource {
     description: string;
     apiId: string;
     isBulkRemovable: boolean;
+    tableCode: string;
     creationDate: Date;
     lastModificationDate?: Date;
 

@@ -1,5 +1,5 @@
 export enum PropertyType {
-    Varchar = 1,
+    String = 1,
     Text,
     Int,
     Decimal,

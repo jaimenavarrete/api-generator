@@ -58,7 +58,7 @@ const getQueryToInsertProperties = (resource: Resource) => {
 
 const getPropertyType = (type: PropertyType) => {
     switch (type) {
-        case PropertyType.Varchar:
+        case PropertyType.String:
             return 'VARCHAR(256)';
         case PropertyType.Text:
             return 'TEXT';

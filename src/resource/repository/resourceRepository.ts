@@ -10,9 +10,7 @@ export const getAllResources = async () => {
         const db = await pool.connect();
 
         const result = await db.query(sql);
-        const resourcesList: Resource[] = mapper.mapFromRowsToResourcesList(
-            result.rows
-        );
+        const resourcesList = mapper.mapFromRowsToResourcesList(result.rows);
 
         db.release();
 
@@ -31,7 +29,7 @@ export const getResourceById = async (id: string) => {
         const db = await pool.connect();
 
         const result = await db.query(sql, [id]);
-        const resource: Resource = mapper.mapFromRowToResource(result.rows[0]);
+        const resource = mapper.mapFromRowToResource(result.rows[0]);
 
         db.release();
 

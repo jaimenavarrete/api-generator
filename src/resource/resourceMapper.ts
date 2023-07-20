@@ -16,8 +16,13 @@ export const mapFromRowToResource = (row: any): Resource => ({
     lastModificationDate: row.lastmodification,
 });
 
-export const mapFromRowsToResourcesList = (rows: any[]): Resource[] =>
-    rows.map((row) => mapFromRowToResource(row));
+export const mapFromRowsToResourcesList = (
+    rows: any[]
+): Resource[] | undefined => {
+    if (!rows) return undefined;
+
+    return rows.map((row) => mapFromRowToResource(row));
+};
 
 // Resource and Request body Mappings
 
@@ -37,8 +42,13 @@ export const mapFromRequestBodyToResource = (request: any): Resource => ({
 
 export const mapFromRequestBodyToPropertiesList = (
     requestProperties: any[]
-): Property[] =>
-    requestProperties.map((property) => mapFromRequestBodyToProperty(property));
+): Property[] | undefined => {
+    if (!requestProperties) return undefined;
+
+    return requestProperties.map((property) =>
+        mapFromRequestBodyToProperty(property)
+    );
+};
 
 export const mapFromRequestBodyToProperty = (
     requestProperty: any

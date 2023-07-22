@@ -29,7 +29,7 @@ export const mapFromRowsToResourcesList = (
 export const mapFromRequestBodyToResource = (request: any): Resource => ({
     id: '',
     name: request.name,
-    slug: request.slug,
+    slug: '',
     description: request.description,
     apiId: request.apiId,
     isBulkRemovable: request.isBulkRemovable,

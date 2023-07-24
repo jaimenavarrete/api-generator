@@ -63,3 +63,26 @@ export const mapFromRequestBodyToProperty = (
     referencedKeyId: requestProperty.referencedKeyId,
     creationDate: new Date(),
 });
+
+// PostgreSQL and Property Mappings
+
+export const mapFromRowToPropertiesList = (
+    rows: any[]
+): Property[] | undefined => {
+    if (!rows) return undefined;
+
+    return rows.map((property) => mapFromRowToProperty(property));
+};
+
+export const mapFromRowToProperty = (row: any): Property => ({
+    id: row.id,
+    name: row.name,
+    typeId: row.typeid,
+    resourceId: row.resourceid,
+    isKey: row.iskey,
+    isNullable: row.isnullable,
+    defaultValue: row.defaultvalue,
+    referencedKeyId: row.referencedkeyid,
+    creationDate: row.creationdate,
+    lastModificationDate: row.lastmodificationdate,
+});

@@ -60,6 +60,25 @@ export const getResourceBySlug = async (slug: string, apiId: string) => {
     return undefined;
 };
 
+export const getResourcePropertiesById = async (id: string) => {
+    let sql = 'SELECT * FROM properties WHERE resourceId=$1';
+
+    try {
+        const db = await pool.connect();
+
+        const result = await db.query(sql, [id]);
+        const resource = mapper.mapFromRowToPropertiesList(result.rows);
+
+        db.release();
+
+        return resource;
+    } catch (err) {
+        console.error('An error has occurred with the connection', err);
+    }
+
+    return undefined;
+};
+
 export const insertResource = async (resource: Resource) => {
     let { sqlInsertResource, valuesInsertResource } =
         queries.getQueryToInsertResource(resource);

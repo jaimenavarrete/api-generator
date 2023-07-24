@@ -1,7 +1,8 @@
-import * as repository from './apiManagementRepository';
+import * as service from './apiManagementService';
+import ResourceSearch from './interfaces/ResourceSearch';
 
-export const getResourceItems = (req, _res) => {
-    const { apiSlug, resourceSlug } = req.params;
+export const getResourceItems = async (req, _res) => {
+    const { apiSlug, resourceSlug }: ResourceSearch = req.params;
 
-    repository.getResourceItems(apiSlug, resourceSlug);
+    await service.getResourceItems({ apiSlug, resourceSlug });
 };

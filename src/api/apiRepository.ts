@@ -41,6 +41,25 @@ export const getApiById = async (id: string) => {
     return undefined;
 };
 
+export const getApiBySlug = async (slug: string) => {
+    let sql = 'SELECT * FROM apis WHERE slug=$1;';
+
+    try {
+        const db = await pool.connect();
+
+        const result = await db.query(sql, [slug]);
+        const api: Api = mapper.mapFromRowToApi(result.rows[0]);
+
+        db.release();
+
+        return api;
+    } catch (err) {
+        console.error('An error has occurred with the connection', err);
+    }
+
+    return undefined;
+};
+
 export const insertApi = async (api: Api) => {
     api.id = crypto.randomUUID();
     api.creationDate = new Date();

@@ -58,6 +58,10 @@ const getQueryToInsertProperties = (resource: Resource) => {
 
 const getPropertyType = (type: PropertyType) => {
     switch (type) {
+        case PropertyType.Id:
+            return 'SERIAL';
+        case PropertyType.Uuid:
+            return 'UUID';
         case PropertyType.String:
             return 'VARCHAR(256)';
         case PropertyType.Text:

@@ -1,5 +1,7 @@
 export enum PropertyType {
-    String = 1,
+    Id = 1,
+    Uuid,
+    String,
     Text,
     Int,
     Decimal,

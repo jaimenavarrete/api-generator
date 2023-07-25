@@ -31,7 +31,7 @@ create table types (
 
 create table properties (
 	id char(36) primary key,
-	name varchar(64) unique not null,
+	name varchar(64) not null,
 	typeId int not null,
 	resourceId char(36),
 	isKey bool not null,

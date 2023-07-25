@@ -72,7 +72,7 @@ const getPropertyType = (type: PropertyType) => {
 };
 
 const getQueryToCreateTable = (resource: Resource) => {
-    let sqlCreateTable = `CREATE TABLE ${resource.tableCode} (`;
+    let sqlCreateTable = `CREATE TABLE resources.${resource.tableCode} (`;
 
     resource.properties!.forEach((property) => {
         let name = property.name,

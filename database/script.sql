@@ -45,3 +45,6 @@ create table properties (
 	foreign key (resourceId) references resources (id),
 	foreign key (referencedKeyId) references properties (id)
 );
+
+-- Resources schema
+create schema resources;

@@ -4,7 +4,8 @@ export const getResourceItems = async (
     propertyNames: string[],
     tableCode: string
 ) => {
-    let sql = 'SELECT ' + propertyNames.toString() + ' FROM ' + tableCode;
+    let sql =
+        'SELECT ' + propertyNames.toString() + ' FROM resources.' + tableCode;
 
     try {
         const db = await pool.connect();

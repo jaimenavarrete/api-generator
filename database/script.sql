@@ -2,8 +2,8 @@ create database apiGenerator;
 
 create table apis (
 	id char(36) primary key,
-	name varchar(64) unique not null,
-	slug varchar(64) unique not null,
+	name varchar(64) not null,
+	slug varchar(64) not null,
 	description text,
 	isPrivate bool not null,
 	creationDate timestamp,
@@ -12,8 +12,8 @@ create table apis (
 
 create table resources (
 	id char(36) primary key,
-	name varchar(64) unique not null,
-	slug varchar(64) unique not null,
+	name varchar(64) not null,
+	slug varchar(64) not null,
 	description text,
 	apiId char(36) not null,
 	isBulkRemovable bool not null,

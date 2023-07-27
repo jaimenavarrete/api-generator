@@ -11,3 +11,9 @@ export const getResourceItems = async (req, res) => {
 
     res.status(200).json(resourceItems);
 };
+
+export const insertResourceItem = async (req, _res) => {
+    const { apiSlug, resourceSlug }: ResourceSearch = req.params;
+
+    await service.insertResourceItem({ apiSlug, resourceSlug }, req.body);
+};
